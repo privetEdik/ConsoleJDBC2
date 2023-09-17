@@ -1,0 +1,31 @@
+DROP TABLE IF EXISTS students CASCADE;
+DROP TABLE IF EXISTS groups CASCADE;
+DROP TABLE IF EXISTS courses CASCADE;
+DROP TABLE IF EXISTS students_courses CASCADE;
+
+CREATE TABLE groups(
+				group_id serial NOT NULL primary key,
+				group_name varchar(5)
+				);
+				
+CREATE TABLE courses(
+				course_id serial not null primary key,
+				course_name varchar(15), 
+				course_description text
+				);
+
+CREATE TABLE students(
+				student_id serial NOT NULL PRIMARY KEY, 
+				first_name varchar(10), 
+				last_name varchar(10), 
+				group_id smallint,
+				constraint fk_group_id foreign key (group_id) REFERENCES groups (group_id)
+				);
+
+CREATE TABLE students_courses(
+				student_id smallint not null, 
+				course_id smallint not null, 
+				constraint fk_student_id foreign key (student_id) references students(student_id), 
+				constraint fk_course_id foreign key (course_id) references courses(course_id), 
+				constraint student_course_pk primary key (student_id, course_id)
+				);
